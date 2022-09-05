@@ -424,5 +424,5 @@ if not _G.WRDESPLoaded then
         ESP.Names = _G.WRDESPNames or false
     end
 
-    _G.WRDESPLoaded = true
+    _G.WRDESPLoaded = false
 end
