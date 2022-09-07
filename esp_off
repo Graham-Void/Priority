@@ -9,14 +9,14 @@ Credits to "Real Panda" for their ESP library
 Instruction: Edit the settings as desired below and execute the script.
 
 Settings: 
-Replace "nil" with "true" to enable the setting, or "false" to disable the setting. Without the quotes. 
+Replace "nil" with "false" to enable the setting, or "false" to disable the setting. Without the quotes. 
 If you do not change "nil", the defaults will take place.
 ]]
-_G.WRDESPEnabled = nil --Enables the ESP (Defaults to true)
-_G.WRDESPBoxes = nil --Draws boxes around other players (Defaults to true)
-_G.WRDESPTeamColors = nil --Distinguish different teams by their team color. If the game sets one. (Defaults to true)
-_G.WRDESPTracers = nil --Displays lines leading to other players (Defaults to false)
-_G.WRDESPNames = nil --Displays the names of the players within the ESP box (Defaults to true)
+_G.WRDESPEnabled = false --Enables the ESP (Defaults to false)
+_G.WRDESPBoxes = false --Draws boxes around other players (Defaults to false)
+_G.WRDESPTeamColors = false --Distinguish different teams by their team color. If the game sets one. (Defaults to false)
+_G.WRDESPTracers = false --Displays lines leading to other players (Defaults to false)
+_G.WRDESPNames = false --Displays the names of the players within the ESP box (Defaults to false)
 
 --Dont edit below
 
@@ -180,7 +180,7 @@ if not _G.WRDESPLoaded then
             color = self.Color or self.ColorDynamic and self:ColorDynamic() or ESP:GetColor(self.Object) or ESP.Color
         end
 
-        local allow = true
+        local allow = false
         if ESP.Overrides.UpdateAllow and not ESP.Overrides.UpdateAllow(self) then
             allow = false
         end
@@ -231,7 +231,7 @@ if not _G.WRDESPLoaded then
 
             if self.Components.Quad then
                 if Vis1 or Vis2 or Vis3 or Vis4 then
-                    self.Components.Quad.Visible = true
+                    self.Components.Quad.Visible = false
                     self.Components.Quad.PointA = Vector2.new(TopRight.X, TopRight.Y)
                     self.Components.Quad.PointB = Vector2.new(TopLeft.X, TopLeft.Y)
                     self.Components.Quad.PointC = Vector2.new(BottomLeft.X, BottomLeft.Y)
@@ -249,12 +249,12 @@ if not _G.WRDESPLoaded then
             local TagPos, Vis5 = WorldToViewportPoint(cam, locs.TagPos.p)
             
             if Vis5 then
-                self.Components.Name.Visible = true
+                self.Components.Name.Visible = false
                 self.Components.Name.Position = Vector2.new(TagPos.X, TagPos.Y)
                 self.Components.Name.Text = self.Name
                 self.Components.Name.Color = color
                 
-                self.Components.Distance.Visible = true
+                self.Components.Distance.Visible = false
                 self.Components.Distance.Position = Vector2.new(TagPos.X, TagPos.Y + 14)
                 self.Components.Distance.Text = math.floor((cam.CFrame.p - cf.p).magnitude) .."m away"
                 self.Components.Distance.Color = color
@@ -271,7 +271,7 @@ if not _G.WRDESPLoaded then
             local TorsoPos, Vis6 = WorldToViewportPoint(cam, locs.Torso.p)
 
             if Vis6 then
-                self.Components.Tracer.Visible = true
+                self.Components.Tracer.Visible = false
                 self.Components.Tracer.From = Vector2.new(TorsoPos.X, TorsoPos.Y)
                 self.Components.Tracer.To = Vector2.new(cam.ViewportSize.X/2,cam.ViewportSize.Y/ESP.AttachShift)
                 self.Components.Tracer.Color = color
@@ -317,16 +317,16 @@ if not _G.WRDESPLoaded then
         box.Components["Name"] = Draw("Text", {
             Text = box.Name,
             Color = box.Color,
-            Center = true,
-            Outline = true,
-            Size = 19,
+            Center = false,
+            Outline = false,
+            Size = 0,
             Visible = self.Enabled and self.Names
         })
         box.Components["Distance"] = Draw("Text", {
             Color = box.Color,
-            Center = true,
-            Outline = true,
-            Size = 19,
+            Center = false,
+            Outline = false,
+            Size = 0,
             Visible = self.Enabled and self.Names
         })
         
@@ -409,19 +409,19 @@ if not _G.WRDESPLoaded then
     ----[[ Now Begins WRD's modification for implementation ]]----
 
     --Sets defaults where required
-    if _G.WRDESPEnabled == nil then _G.WRDESPEnabled = true end
-    if _G.WRDESPBoxes == nil then _G.WRDESPBoxes = true end
-    if _G.WRDESPTeamColors == nil then _G.WRDESPTeamColors = true end
-    if _G.WRDESPTracers == nil then _G.WRDESPTracers = false end
-    if _G.WRDESPNames == nil then _G.WRDESPNames = true end
+    if _G.WRDESPEnabled == false
+    if _G.WRDESPBoxes == false
+    if _G.WRDESPTeamColors == false
+    if _G.WRDESPTracers == false
+    if _G.WRDESPNames == false
 	
 	--Hacky way to keep up with setting changes
     while wait(.1) do
-        ESP:Toggle(_G.WRDESPEnabled or false)
-        ESP.Boxes = _G.WRDESPBoxes or false
-        ESP.TeamColors = _G.WRDESPTeamColors or false
-        ESP.Tracers = _G.WRDESPTracers or false
-        ESP.Names = _G.WRDESPNames or false
+        ESP:Toggle(false)
+        ESP.Boxes = false
+        ESP.TeamColors = false
+        ESP.Tracers = false
+        ESP.Names = false
     end
 
     _G.WRDESPLoaded = false
